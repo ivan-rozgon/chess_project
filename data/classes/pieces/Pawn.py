@@ -5,7 +5,7 @@ from data.classes.Piece import Piece
 
 class Pawn(Piece):
     def __init__(self, pos, color, board):
-        super().__init__(pos, color, board)
+        super().__init__(pos, color)
 
         img_path = 'data/images/' + color[0] + 'Pawn.png'
         self.img = pygame.image.load(img_path)
@@ -30,17 +30,15 @@ class Pawn(Piece):
 
         for move in moves:
             new_pos = (self.x, self.y + move[1])
-            if new_pos[1] < 8 and new_pos[1] >= 0:
-                output.append(
-                    board.get_square_from_pos(new_pos)
-                )
+            if 0 <= new_pos[1] < 8:
+                output.append(board.get_square_from_pos(new_pos))
 
         return output
 
     def get_moves(self, board):
         output = []
         for square in self.get_possible_moves(board):
-            if square.occupying_piece != None:
+            if square.occupying_piece is not None:
                 break
             else:
                 output.append(square)
@@ -50,14 +48,14 @@ class Pawn(Piece):
                 square = board.get_square_from_pos(
                     (self.x + 1, self.y - 1)
                 )
-                if square.occupying_piece != None:
+                if square.occupying_piece is not None:
                     if square.occupying_piece.color != self.color:
                         output.append(square)
             if self.x - 1 >= 0 and self.y - 1 >= 0:
                 square = board.get_square_from_pos(
                     (self.x - 1, self.y - 1)
                 )
-                if square.occupying_piece != None:
+                if square.occupying_piece is not None:
                     if square.occupying_piece.color != self.color:
                         output.append(square)
 
@@ -66,14 +64,14 @@ class Pawn(Piece):
                 square = board.get_square_from_pos(
                     (self.x + 1, self.y + 1)
                 )
-                if square.occupying_piece != None:
+                if square.occupying_piece is not None:
                     if square.occupying_piece.color != self.color:
                         output.append(square)
             if self.x - 1 >= 0 and self.y + 1 < 8:
                 square = board.get_square_from_pos(
                     (self.x - 1, self.y + 1)
                 )
-                if square.occupying_piece != None:
+                if square.occupying_piece is not None:
                     if square.occupying_piece.color != self.color:
                         output.append(square)
 

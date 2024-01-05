@@ -5,7 +5,7 @@ from data.classes.Piece import Piece
 
 class Knight(Piece):
     def __init__(self, pos, color, board):
-        super().__init__(pos, color, board)
+        super().__init__(pos, color)
 
         img_path = 'data/images/' + color[0] + 'Knight.png'
         self.img = pygame.image.load(img_path)
@@ -23,19 +23,12 @@ class Knight(Piece):
             (-1, 2),
             (-2, 1),
             (-2, -1),
-            (-1, -2)
+            (-1, -2),
         ]
 
         for move in moves:
             new_pos = (self.x + move[0], self.y + move[1])
-            if (
-                    0 <= new_pos[0] < 8 and
-                    0 <= new_pos[1] < 8
-            ):
-                output.append([
-                    board.get_square_from_pos(
-                        new_pos
-                    )
-                ])
+            if 0 <= new_pos[0] < 8 and 0 <= new_pos[1] < 8:
+                output.append([board.get_square_from_pos(new_pos)])
 
         return output

@@ -1,5 +1,3 @@
-import pygame
-
 from data.classes.Square import Square
 from data.classes.pieces.Rook import Rook
 from data.classes.pieces.Bishop import Bishop
@@ -61,35 +59,23 @@ class Board:
 
                     # looking inside contents, what piece does it have
                     if piece[1] == 'R':
-                        square.occupying_piece = Rook(
-                            (x, y), 'white' if piece[0] == 'w' else 'black', self
-                        )
+                        square.occupying_piece = Rook((x, y), 'white' if piece[0] == 'w' else 'black', self)
                     # as you notice above, we put `self` as argument, or means our class Board
 
                     elif piece[1] == 'N':
-                        square.occupying_piece = Knight(
-                            (x, y), 'white' if piece[0] == 'w' else 'black', self
-                        )
+                        square.occupying_piece = Knight((x, y), 'white' if piece[0] == 'w' else 'black', self)
 
                     elif piece[1] == 'B':
-                        square.occupying_piece = Bishop(
-                            (x, y), 'white' if piece[0] == 'w' else 'black', self
-                        )
+                        square.occupying_piece = Bishop((x, y), 'white' if piece[0] == 'w' else 'black', self)
 
                     elif piece[1] == 'Q':
-                        square.occupying_piece = Queen(
-                            (x, y), 'white' if piece[0] == 'w' else 'black', self
-                        )
+                        square.occupying_piece = Queen((x, y), 'white' if piece[0] == 'w' else 'black', self)
 
                     elif piece[1] == 'K':
-                        square.occupying_piece = King(
-                            (x, y), 'white' if piece[0] == 'w' else 'black', self
-                        )
+                        square.occupying_piece = King((x, y), 'white' if piece[0] == 'w' else 'black', self)
 
                     elif piece[1] == 'P':
-                        square.occupying_piece = Pawn(
-                            (x, y), 'white' if piece[0] == 'w' else 'black', self
-                        )
+                        square.occupying_piece = Pawn((x, y), 'white' if piece[0] == 'w' else 'black', self)
 
     def handle_click(self, mx, my):
         x = mx // self.tile_width
@@ -136,7 +122,7 @@ class Board:
         if changing_piece is not None:
             if changing_piece.char == 'K':
                 king_pos = new_square.pos
-        if king_pos == None:
+        if king_pos is None:
             for piece in pieces:
                 if piece.char == 'K' and piece.color == color:
                     king_pos = piece.pos
@@ -156,11 +142,11 @@ class Board:
         output = False
 
         for piece in [i.occupying_piece for i in self.squares]:
-            if piece != None:
+            if piece is not None:
                 if piece.char == 'K' and piece.color == color:
                     king = piece
 
-        if king.get_valid_moves(self) == []:
+        if not king.get_valid_moves(self):
             if self.is_in_check(color):
                 output = True
 

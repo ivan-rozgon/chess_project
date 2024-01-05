@@ -2,7 +2,7 @@ import pygame
 
 
 class Piece:
-    def __init__(self, pos, color, board):
+    def __init__(self, pos, color):
         self.pos = pos
         self.x = pos[0]
         self.y = pos[1]
