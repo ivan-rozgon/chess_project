@@ -17,7 +17,6 @@ class Board:
         self.selected_piece = None
         self.turn = 'white'
 
-        # try making it chess.board.fen()
         self.config = [
             ['bR', 'bN', 'bB', 'bQ', 'bK', 'bB', 'bN', 'bR'],
             ['bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP'],
@@ -57,10 +56,8 @@ class Board:
                 if piece != '':
                     square = self.get_square_from_pos((x, y))
 
-                    # looking inside contents, what piece does it have
                     if piece[1] == 'R':
                         square.occupying_piece = Rook((x, y), 'white' if piece[0] == 'w' else 'black', self)
-                    # as you notice above, we put `self` as argument, or means our class Board
 
                     elif piece[1] == 'N':
                         square.occupying_piece = Knight((x, y), 'white' if piece[0] == 'w' else 'black', self)
@@ -94,7 +91,7 @@ class Board:
             if clicked_square.occupying_piece.color == self.turn:
                 self.selected_piece = clicked_square.occupying_piece
 
-    def is_in_check(self, color, board_change=None):  # board_change = [(x1, y1), (x2, y2)]
+    def is_in_check(self, color, board_change=None):
         output = False
         king_pos = None
 
@@ -139,18 +136,22 @@ class Board:
         return output
 
     def is_in_checkmate(self, color):
-        output = False
+        checkmate = False
+        piece_moves = []
 
         for piece in [i.occupying_piece for i in self.squares]:
             if piece is not None:
                 if piece.char == 'K' and piece.color == color:
                     king = piece
+                if piece.color == color:
+                    piece_moves.extend(piece.get_valid_moves(self))
 
-        if not king.get_valid_moves(self):
+
+        if not king.get_valid_moves(self) and not piece_moves:
             if self.is_in_check(color):
-                output = True
+                checkmate = True
 
-        return output
+        return checkmate
 
     def draw(self, display):
         if self.selected_piece is not None:

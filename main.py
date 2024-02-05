@@ -1,18 +1,40 @@
+import os
+import sys
+
 import pygame
 
 from data.classes.Board import Board
 
 pygame.init()
 
-WINDOW_SIZE = (600, 600)
-screen = pygame.display.set_mode(WINDOW_SIZE)
+geometry = (600, 600)
+screen = pygame.display.set_mode(geometry)
+board = Board(geometry[0], geometry[1])
 
-board = Board(WINDOW_SIZE[0], WINDOW_SIZE[1])
+
+def load_image(name):
+    fullname = os.path.join('data/images', name)
+    if not os.path.isfile(fullname):
+        print(f"Файл с изображением '{fullname}' не найден")
+        sys.exit()
+    image = pygame.image.load(fullname)
+    return image
 
 
-def draw(display):
-    display.fill('white')
-    board.draw(display)
+def draw(scr):
+    scr.fill('white')
+    board.draw(scr)
+    if board.is_in_checkmate('black'):
+        img = load_image('white_win.jpg')
+        img1 = pygame.transform.scale(img, (400, 400))
+        screen.blit(img1, (100, 100))
+
+        # running = False
+    elif board.is_in_checkmate('white'):
+        img = load_image('black_win.jpg')
+        img1 = pygame.transform.scale(img, (400, 400))
+        screen.blit(img1, (100, 100))
+
     pygame.display.update()
 
 
@@ -29,10 +51,14 @@ if __name__ == '__main__':
                     board.handle_click(mouse_x, mouse_y)
 
         if board.is_in_checkmate('black'):
-            print('White wins!')
-            running = False
+            img = load_image('white_win.jpg')
+            screen.blit(img, (10, 10))
+
+            #running = False
         elif board.is_in_checkmate('white'):
-            print('Black wins!')
-            running = False
+            img = load_image('black_win.jpg')
+            screen.blit(img, (10, 10))
+
+            #running = False
 
         draw(screen)

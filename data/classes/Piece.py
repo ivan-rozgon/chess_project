@@ -25,6 +25,7 @@ class Piece:
             # Pawn promotion
             if self.char == ' ':
                 if self.y == 0 or self.y == 7:
+                    #screen2 = pygame.display.set_mode((100, 100))
                     from data.classes.pieces.Queen import Queen
                     square.occupying_piece = Queen(
                         (self.x, self.y),
@@ -68,6 +69,5 @@ class Piece:
 
         return output
 
-    # True for all pieces except pawn
     def attacking_squares(self, board):
         return self.get_moves(board)
